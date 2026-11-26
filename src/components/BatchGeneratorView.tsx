@@ -11,6 +11,7 @@ import {
   encodeSgtinEpc,
   encodeSsccEpc,
 } from '../lib/gs1';
+import { copyToClipboard } from '../lib/clipboard';
 
 type BatchTarget = 'GTIN-13' | 'GTIN-14' | 'SGTIN' | 'SSCC' | 'GLN';
 
@@ -219,9 +220,11 @@ export function BatchGeneratorView() {
   };
 
   const handleCopyCsv = async () => {
-    await navigator.clipboard.writeText(toCsv());
-    setCopiedCsv(true);
-    setTimeout(() => setCopiedCsv(false), 1500);
+    const ok = await copyToClipboard(toCsv());
+    if (ok) {
+      setCopiedCsv(true);
+      setTimeout(() => setCopiedCsv(false), 1500);
+    }
   };
 
   return (

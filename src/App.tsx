@@ -34,6 +34,7 @@ import { EpcBitVisualizer } from './components/EpcBitVisualizer';
 import { BatchGeneratorView } from './components/BatchGeneratorView';
 import { ValidatorView } from './components/ValidatorView';
 import { AlgorithmReferenceView } from './components/AlgorithmReferenceView';
+import { copyToClipboard } from './lib/clipboard';
 
 type StudioTab = 'gtin' | 'gln' | 'sscc' | 'sgtin' | 'epc' | 'gs1-128' | 'digital-link';
 type AppSection = StudioTab | 'batch' | 'validator' | 'algorithms';
@@ -62,9 +63,11 @@ function CopyChip({ value, label }: { value: string; label?: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(value);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    const ok = await copyToClipboard(value);
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
   };
 
   return (

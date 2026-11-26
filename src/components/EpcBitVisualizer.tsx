@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, Copy } from 'lucide-react';
 import { EpcEncodingResult } from '../lib/gs1';
+import { copyToClipboard } from '../lib/clipboard';
 
 interface EpcBitVisualizerProps {
   epc: EpcEncodingResult;
@@ -10,9 +11,11 @@ function CopyableLine({ label, value }: { label: string; value: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(value);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    const ok = await copyToClipboard(value);
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
   };
 
   return (
@@ -37,9 +40,11 @@ export function EpcBitVisualizer({ epc }: EpcBitVisualizerProps) {
   const [copiedSchema, setCopiedSchema] = useState(false);
 
   const handleCopySchema = async () => {
-    await navigator.clipboard.writeText(epc.epcisJsonLd);
-    setCopiedSchema(true);
-    setTimeout(() => setCopiedSchema(false), 1500);
+    const ok = await copyToClipboard(epc.epcisJsonLd);
+    if (ok) {
+      setCopiedSchema(true);
+      setTimeout(() => setCopiedSchema(false), 1500);
+    }
   };
 
   return (

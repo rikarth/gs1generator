@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import QRCode from 'qrcode';
 import { Download, Check, Copy } from 'lucide-react';
 import { encodeGs1128Barcode } from '../lib/barcode128';
+import { copyToClipboard } from '../lib/clipboard';
 
 interface Barcode128PreviewProps {
   machineString: string;
@@ -39,9 +40,11 @@ export function Barcode128Preview({ machineString, hri, fnc1DisplayString }: Bar
   };
 
   const handleCopySvg = async () => {
-    await navigator.clipboard.writeText(svgMarkup);
-    setCopiedSvg(true);
-    setTimeout(() => setCopiedSvg(false), 1600);
+    const ok = await copyToClipboard(svgMarkup);
+    if (ok) {
+      setCopiedSvg(true);
+      setTimeout(() => setCopiedSvg(false), 1600);
+    }
   };
 
   return (
@@ -146,9 +149,11 @@ export function QrLinkPreview({ url }: QrLinkPreviewProps) {
 
   const handleCopy = async () => {
     if (!svgString) return;
-    await navigator.clipboard.writeText(svgString);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1600);
+    const ok = await copyToClipboard(svgString);
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    }
   };
 
   return (
