@@ -1,0 +1,6 @@
+{
+  "name": "GS1 Supply Chain Workbench",
+  "description": "Standards-compliant GS1 identifier generator, Mod-10 checksum verifier, EPC binary encoder, GS1-128 barcode renderer, and GS1 Digital Link builder.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
